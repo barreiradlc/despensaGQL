@@ -17,6 +17,8 @@ module Mutations
       item = Item.find(id)
 
       if item.update(title: title, description: description, image_url: image_url)
+        GqlDespensaSchema.subscriptions.trigger("itemUpdated", {}, item)
+
         { item: item }
       else
         { errors: item.errors.full_messages }
