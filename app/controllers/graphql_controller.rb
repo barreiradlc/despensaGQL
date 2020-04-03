@@ -33,7 +33,7 @@ class GraphqlController < ApplicationController
   def ensure_hash(ambiguous_param)
     case ambiguous_param
     when String
-      if ambiguous_param.present?
+      if ambiguous_param.p  resent?
         ensure_hash(JSON.parse(ambiguous_param))
       else
         {}

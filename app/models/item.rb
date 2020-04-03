@@ -1,6 +1,6 @@
 class Item < ApplicationRecord
   belongs_to :user
+  belongs_to :provimento
+  belongs_to :despensa
 
-  validates :title, presence: true
-  validates :description, length: { minimum: 10 }, allow_blank: true
 end

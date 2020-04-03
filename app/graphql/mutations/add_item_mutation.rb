@@ -9,13 +9,6 @@ module Mutations
     def resolve(attributes:)
       check_authentication!
 
-      # item = Item.new(
-      #   title: attributes.title,
-      #   description: attributes.description,
-      #   image_url: attributes.image_url,
-      #   user: context[:current_user]
-      # )
-
       item = Item.new(attributes.to_h.merge(user: context[:current_user]))
 
       puts item

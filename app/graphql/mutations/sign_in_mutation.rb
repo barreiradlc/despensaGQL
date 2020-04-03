@@ -18,7 +18,6 @@ module Mutations
         }
         rescue ActiveRecord::RecordNotFound
             raise GraphQL::ExecutionError, "user not found"
-    
         
     end
       

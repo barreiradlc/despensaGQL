@@ -21,6 +21,7 @@ class GraphqlChannel < ApplicationCable::Channel
 
     transmit(payload)
   end
+  
 
   
 

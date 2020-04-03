@@ -1,10 +1,15 @@
-module Types
-  class QueryType < Types::BaseObject
+class Types:: QueryType < Types::BaseObject
     
-    field :items, [Types::ItemType], null: false, description: "Returns a list of items in the martian library"
+    field :items, [Types::ItemType], null: false, description: "Itens"
 
     def items
       Item.all
+    end
+    
+    field :despensas, [Types::DespensaType], null: false, description: "despensas"
+
+    def despensas
+      Despensa.all
     end
 
     field :me, Types::UserType, null: true
@@ -13,5 +18,4 @@ module Types
       context[:current_user]
     end
 
-  end
 end
