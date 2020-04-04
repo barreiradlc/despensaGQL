@@ -1,5 +1,5 @@
 # db/seeds.rb
-john = User.create!(
+john = User.create(
     email: "john.doe@example.com",
     first_name: "John",
     username: "John",
@@ -7,7 +7,7 @@ john = User.create!(
     password: "Doe123123"
   )
   
-  jane = User.create!(
+  jane = User.create(
     email: "jane.doe@example.com",
     first_name: "Jane",
     username: "Jane",
@@ -23,16 +23,23 @@ john = User.create!(
   )
 
   armario = Despensa.create!(
+    users:[ john ],
     nome: "Armario",
     descricao: "Armario da cozinha",
   )
   
+  geladeira = Despensa.create!(
+    users: [ john, jane ],
+    nome: "Geladeira",
+    descricao: "Geladeira da cozinha",
+  )
+
   Item.create!(
     [
       {
         user: john,
         provimento: maca,
-        despensa: armario,
+        despensa: geladeira,
         validade: Time.now + 300000.hours.to_i,
         quantidade: 34,
         created_at: Time.now,
