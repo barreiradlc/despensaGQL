@@ -6,6 +6,7 @@ module Types
 
     field :add_despensa, mutation: Mutations::AddDespensaMutation
     field :update_despensa_mutation, mutation: Mutations::UpdateDespensaMutation
+    field :delete_despensa_mutation, mutation: Mutations::DeleteDespensaMutation
     
     field :add_item, mutation: Mutations::AddItemMutation
     field :update_item, mutation: Mutations::UpdateItemMutation

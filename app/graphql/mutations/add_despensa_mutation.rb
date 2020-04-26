@@ -9,13 +9,13 @@ module Mutations
       def resolve(attributes:)
         check_authentication!
 
-        jon = User.find(1)
+        user = User.find(context[:current_user].id)
   
         despensa = Despensa.new({
           nome: attributes.nome,
           descricao: attributes.descricao,
           # users: [ context[:current_user] ],
-          users: [ jon ]
+          users: [ user ]
         })
         
         items = []
@@ -25,7 +25,7 @@ module Mutations
               
               @provimento = createOrFindProvimento(i)
               
-              items << createItem(i, @provimento, despensa, jon)
+              items << createItem(i, @provimento, despensa, user)
               
           end
         end   
@@ -38,13 +38,13 @@ module Mutations
   
       end
 
-      def createItem(item, provimento, despensa, jon)
+      def createItem(item, provimento, despensa, user)
 
         Item.create!({
           
           provimento: provimento,
           despensa: despensa,
-          user: jon,
+          user: user,
           
           validade: Time.now + 300.hours.to_i,
           quantidade: item.quantidade,

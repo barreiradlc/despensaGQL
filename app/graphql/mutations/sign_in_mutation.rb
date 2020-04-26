@@ -18,9 +18,6 @@ module Mutations
         # rescue ActiveRecord::RecordNotFound
         #     raise GraphQL::ExecutionError, "user not found"
                         
-
-
-
         @user = User.find_by_email(attributes[:email])
         if @user&.authenticate(attributes[:password])
           token = JsonWebToken.encode(user_id: @user.id)

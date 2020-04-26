@@ -10,7 +10,11 @@ module Mutations
       def resolve(id:, attributes:)
         check_authentication!
 
-        jon = User.find(1)
+        puts 'user'
+        
+        puts 'user'
+
+        jon = User.find(context[:current_user].id)
         
         @despensa = Despensa.find(id)
 
@@ -73,8 +77,10 @@ module Mutations
         end
 
         @provimento = Provimento.where(nome: item.provimento.nome)[0]
+          puts item.to_json
+
           if !@provimento
-              Provimento.create(nome: item.provimento.nome)
+            @provimento  = Provimento.create(nome: item.provimento.nome)
           end
         @provimento
 
