@@ -40,7 +40,7 @@ john = User.create(
         user: john,
         provimento: maca,
         despensa: geladeira,
-        validade: Time.now + 300000.hours.to_i,
+        validade: Time.now + 300.hours.to_i,
         quantidade: 34,
         created_at: Time.now,
         updated_at: Time.now
@@ -49,7 +49,7 @@ john = User.create(
         user: john,
         provimento: maca,
         despensa: armario,
-        validade: Time.now + 300000.hours.to_i,
+        validade: Time.now + 300.hours.to_i,
         quantidade: 34,
         created_at: Time.now,
         updated_at: Time.now
@@ -58,7 +58,7 @@ john = User.create(
         user: jane,
         provimento: pera,
         despensa: armario,
-        validade: Time.now + 300000.hours.to_i,
+        validade: Time.now + 300.hours.to_i,
         quantidade: 34,
         created_at: Time.now,
         updated_at: Time.now
@@ -67,7 +67,7 @@ john = User.create(
         user: jane,
         provimento: pera,
         despensa: armario,
-        validade: Time.now + 300000.hours.to_i,
+        validade: Time.now + 300.hours.to_i,
         quantidade: 34,
         created_at: Time.now,
         updated_at: Time.now

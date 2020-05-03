@@ -1,8 +1,7 @@
 class Receitum < ApplicationRecord
-    attr_accessible :provimentos
     
     belongs_to :user
-    has_many :provimentos
+    has_many :ingredientes, :dependent => :destroy
 
-    accepts_nested_attributes_for :provimentos
+    accepts_nested_attributes_for :ingredientes, allow_destroy: true
 end

@@ -3,7 +3,7 @@ module Mutations
   
       argument :attributes, Types::ReceitaInputType, required: true
   
-      field :receita, Types::ReceitaType, null: true
+      field :receitum, Types::ReceitaType, null: true
       field :errors, Types::ValidationErrorsType, null: true
   
       def resolve(attributes:)
@@ -12,38 +12,63 @@ module Mutations
         # user = User.find(context[:current_user].id)
         user = User.find(1)
 
-        receita = Receitum.new(attributes.to_h.merge(user: user)
-            # nome: attributes.nome,
-            # descricao: attributes.descricao,
-            # user: user
-        )
+        
+        receita = Receitum.new({
+          # attributes.to_h.merge(user: user)
+          nome: attributes.nome,
+          user: user,
+          descricao: attributes.descricao,
+          # provimentos: @provimento
+          })
 
-        # if attributes.provimentos.count > 0
+          ingredientes = []
+        
+        if attributes.ingredientes.count > 0
             
-        #     attributes.provimentos.each do |i|
+            attributes.ingredientes.each do |i|
 
-        #         @provimento = createOrFindProvimento(i)
+                @provimento = createOrFindProvimento(i)
+
+                ingredientes << createIngrediente(i, @provimento, receita, user)
               
-        #     end
+            end
             
-        # end
+        end
+        
+        puts @provimento.to_json
   
-        puts receita
+        puts receita.to_json
   
         if receita.save
         #   GqlDespensaSchema.subscriptions.trigger("itemAdded", {}, item)
-          { receita: receita }
+          { receitum: receita }
         else
           { errors: receita.errors }
         end
   
       end
 
-      def createOrFindProvimento(item)
+      def createIngrediente(ingrediente, provimento, receita, user)
+
+        puts receita.to_json
+
+        Ingrediente.create!({
+          
+          provimento: provimento,
+          receitum: receita,
+          
+          quantidade: ingrediente.quantidade,
+
+          created_at: Time.now,
+          updated_at: Time.now
+        })
+      end 
+
+      def createOrFindProvimento(ingrediente)
         
-        @provimento = Provimento.where(nome: item.nome)[0]
+        @provimento = Provimento.where(nome: ingrediente.provimento.nome)[0]
           if !@provimento
-              Provimento.create(nome: item.nome)
+            @provimento = Provimento.create(nome: ingrediente.provimento.nome)
           end
         @provimento
 

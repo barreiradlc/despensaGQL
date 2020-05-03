@@ -8,7 +8,7 @@ module Mutations
       
       def resolve(args)
 
-        despensas = args[:despensas]
+        despensas = args[:despensas].to_h
 
         check_authentication!
 

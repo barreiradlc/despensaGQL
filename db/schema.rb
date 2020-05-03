@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_03_170433) do
+ActiveRecord::Schema.define(version: 2020_05_03_151657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,23 @@ ActiveRecord::Schema.define(version: 2020_04_03_170433) do
     t.bigint "despensa_id"
     t.index ["despensa_id"], name: "index_despensas_users_on_despensa_id"
     t.index ["user_id"], name: "index_despensas_users_on_user_id"
+  end
+
+  create_table "ingrediente", id: false, force: :cascade do |t|
+    t.bigint "provimento_id"
+    t.bigint "receita_id"
+    t.index ["provimento_id"], name: "index_ingrediente_on_provimento_id"
+    t.index ["receita_id"], name: "index_ingrediente_on_receita_id"
+  end
+
+  create_table "ingredientes", force: :cascade do |t|
+    t.bigint "receitum_id"
+    t.bigint "provimento_id"
+    t.integer "quantidade"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["provimento_id"], name: "index_ingredientes_on_provimento_id"
+    t.index ["receitum_id"], name: "index_ingredientes_on_receitum_id"
   end
 
   create_table "items", force: :cascade do |t|
@@ -62,6 +79,8 @@ ActiveRecord::Schema.define(version: 2020_04_03_170433) do
     t.string "descricao"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_receita_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -74,8 +93,11 @@ ActiveRecord::Schema.define(version: 2020_04_03_170433) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "ingredientes", "provimentos"
+  add_foreign_key "ingredientes", "receita"
   add_foreign_key "items", "despensas"
   add_foreign_key "items", "provimentos"
   add_foreign_key "items", "users"
   add_foreign_key "passos", "receita", column: "receita_id"
+  add_foreign_key "receita", "users"
 end
