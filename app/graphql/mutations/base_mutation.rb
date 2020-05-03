@@ -11,12 +11,12 @@ module Mutations
   class BaseMutation < GraphQL::Schema::Mutation
 
     def check_authentication!
-      return if context[:current_user]
+      # return if context[:current_user]
 
-      raise GraphQL::ExecutionError,
-            "Precisas estar autenticado para performar tal ação"
+      # raise GraphQL::ExecutionError,
+      #       "Precisas estar autenticado para performar tal ação"
 
-      # puts 'Sem Autenticação para testes'
+      puts 'Sem Autenticação para testes'
     end
     
   end
