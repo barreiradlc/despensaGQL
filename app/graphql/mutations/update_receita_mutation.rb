@@ -24,7 +24,6 @@ module Mutations
         ingredientes = []
         passos = []
         
-        
         if attributes.ingredientes.count > 0
             
             attributes.ingredientes.each do |i|
@@ -51,15 +50,25 @@ module Mutations
         puts @receita.to_json
 
         if @receita.save
-        #   GqlDespensaSchema.subscriptions.trigger("itemAdded", {}, item)
-        { receitum: @receita }
+            { receitum: @receita }
         else
-        { errors: @receita.errors }
+            { errors: @receita.errors }
         end
 
     end
 
     def createIngrediente(ingrediente, provimento, receita)
+
+        if ingrediente.id.present?
+            @ingrediente_atual = Ingrediente.find(ingrediente.id)
+            
+            if @ingrediente_atual.provimento.id == provimento.id
+              @ingrediente_atual
+            else
+              @ingrediente_atual.update(provimento: provimento)
+            end
+            @ingrediente_atual 
+        else
 
         puts receita.to_json
 
@@ -74,31 +83,35 @@ module Mutations
         updated_at: Time.now
         })
 
+        end 
     end 
 
     def createOrFindProvimento(ingrediente)
         
         @provimento = Provimento.where(nome: ingrediente.provimento.nome)[0]
+
         if !@provimento
             @provimento = Provimento.create(nome: ingrediente.provimento.nome)
         end
+
         @provimento
 
     end
     
-    
     def createOrFindPasso(passo, receita)
         
-
-
         if passo.id.present?
-        @passo = Passo.find(passo)
+            @passo = Passo.find(passo.id)
 
-        @passo = passo
+            # @passo.descricao = passo.descricao
+            # @passo.posicao = passo.posicao
 
-        @passo.save
+            @passo.update({
+                descricao: passo.descricao,
+                posicao: passo.posicao
+            })
         else
-        @passo = Passo.create!(passo.to_h.merge(receitum: receita))
+            @passo = Passo.create!(passo.to_h.merge(receitum: receita))
         end
         
         @passo

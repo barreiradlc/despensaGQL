@@ -34,4 +34,24 @@ class Types:: QueryType < Types::BaseObject
       Provimento.where("nome like ?", "%#{query}%")
     end    
 
+    field :receita, Types::ReceitaType ,null: true do
+      argument :id, ID, required: true
+    end
+
+    def receita(id:)
+      Receitum.find(id)
+    end    
+
+    field :receitas, [Types::ReceitaType],null: true do
+      argument :query, String, required: false
+    end
+
+    def receitas
+      q = Receitum.all
+      # if query.present?
+      #  q = Receitum.where("nome like ?", "%#{query}%")
+      # end
+    end    
+
+
 end

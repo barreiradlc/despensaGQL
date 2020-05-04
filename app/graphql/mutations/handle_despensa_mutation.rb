@@ -3,12 +3,12 @@ module Mutations
       
       argument :despensas, [Types::DespensaInputType], required: true      
       
-      field :despensa, [Types::DespensaType], null: true
+      field :despensas, [Types::DespensaType], null: true
       field :errors, Types::ValidationErrorsType, null: true
-      
+       
       def resolve(args)
 
-        despensas = args[:despensas].to_h
+        despensas = args[:despensas]
 
         check_authentication!
 
@@ -16,14 +16,74 @@ module Mutations
         
         puts 'user'
 
-        # user = User.find(context[:current_user].id)
-        user = User.find(1)
+        @user = User.find(context[:current_user].id)
+        # @user = User.find(1)
         
-        @listDespensas = despensas.each do |attributes|
-            saveOrCreate(attributes)
+        @listDespensas = []
+        
+        despensas.each do |attributes|
+            saveOrCreate(attributes, @user)
         end
 
-        def saveOrCreate(attributes)
+        
+          {despensas: @listDespensas}
+        
+      
+      end
+
+      def createOrFindProvimento(item)
+          
+        puts 'Despensas a salvar'
+        puts @listDespensas.to_json
+        puts 'Despensas a salvar'
+
+
+
+        if item.provimento.id
+          return Provimento.find(item.provimento.id)
+        end
+        puts item.provimento
+
+        @provimento = Provimento.where(nome: item.provimento.nome)[0]
+          puts item.to_json
+
+          if !@provimento
+            @provimento  = Provimento.create(nome: item.provimento.nome)
+          end
+        @provimento
+      end
+
+
+      def createItem(item, provimento, despensa, user)
+        if item.id.present?
+            @item_atual = Item.find(item.id)
+            
+            if @item_atual.provimento.id == provimento.id
+              @item_atual
+            else
+              @item_atual.update(provimento: provimento)
+            end
+            
+          else
+    
+              Item.create!({
+                
+                provimento: provimento,
+                despensa: despensa,
+                user: user,
+                
+                validade: item.validade && item.validade,
+                quantidade: item.quantidade,
+    
+                created_at: Time.now,
+                updated_at: Time.now
+              })
+        end
+
+      end 
+
+
+      def saveOrCreate(attributes, user)
 
         if attributes.id.present?
             @despensa = Despensa.find(attributes.id)
@@ -50,63 +110,40 @@ module Mutations
         end
 
         # @despensa.items_attributes.update(attributes.items.to_h)
+        if @despensa.id.present?
 
-        if @despensa.update({
-                nome: attributes.nome,
-                descricao: attributes.descricao,
-                items: items
-            })
-        # if @despensa.update(despensa_attr)
-          @listDespensas << @despensa.to_unsafe_h
-        else
-          { errors: @despensa.errors }
-        end
-  
-      end
-      
-      def createItem(item, provimento, despensa, user)
-        if item.id
-            @item_atual = Item.find(item.id)
-            if @item_atual.provimento.id == provimento.id
-             return @item_atual
-            end
-            @item_atual.update(provimento: provimento)
-
-        end
-
-        Item.create!({
+          if @despensa.update({
+                  nome: attributes.nome,
+                  descricao: attributes.descricao,
+                  items: items
+              })
           
-          provimento: provimento,
-          despensa: despensa,
-          user: user,
-          
-          validade: item.validade && item.validade,
-          quantidade: item.quantidade,
-
-          created_at: Time.now,
-          updated_at: Time.now
-        })
-      end 
-
-      def createOrFindProvimento(item)
-        
-        if item.provimento.id
-           return Provimento.find(item.provimento.id)
-        end
-
-        @provimento = Provimento.where(nome: item.provimento.nome)[0]
-          puts item.to_json
-
-          if !@provimento
-            @provimento  = Provimento.create(nome: item.provimento.nome)
+            @listDespensas << @despensa
+          else
+            { errors: @despensa.errors }
           end
-        @provimento
+
+        else
+            
+          if @despensa.save({
+                    nome: attributes.nome,
+                    descricao: attributes.descricao,
+                    items: items
+                })
+              @listDespensas << @despensa
+            else
+              { errors: @despensa.errors }
+            end
+            
+          
+        end
+        
+        @despensa.items = items
 
       end
+    
 
-        end
-
-    {despensa: @listDespensas}
+    
 
     end
   end

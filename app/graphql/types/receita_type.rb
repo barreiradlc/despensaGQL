@@ -1,5 +1,6 @@
 class Types::ReceitaType < Types::BaseObject
 
+    field :id, ID, null: true
     field :nome, String, null: true
     field :descricao, String, null: true
     
