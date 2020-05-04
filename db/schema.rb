@@ -62,10 +62,10 @@ ActiveRecord::Schema.define(version: 2020_05_03_151657) do
   create_table "passos", force: :cascade do |t|
     t.string "descricao"
     t.string "posicao"
-    t.bigint "receita_id", null: false
+    t.bigint "receitum_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["receita_id"], name: "index_passos_on_receita_id"
+    t.index ["receitum_id"], name: "index_passos_on_receitum_id"
   end
 
   create_table "provimentos", force: :cascade do |t|
@@ -98,6 +98,6 @@ ActiveRecord::Schema.define(version: 2020_05_03_151657) do
   add_foreign_key "items", "despensas"
   add_foreign_key "items", "provimentos"
   add_foreign_key "items", "users"
-  add_foreign_key "passos", "receita", column: "receita_id"
+  add_foreign_key "passos", "receita"
   add_foreign_key "receita", "users"
 end

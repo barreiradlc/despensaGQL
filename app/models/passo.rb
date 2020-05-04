@@ -1,3 +1,5 @@
 class Passo < ApplicationRecord
-  belongs_to :receita
+  
+  belongs_to :receitum
+
 end

@@ -13,7 +13,7 @@ module Types
     field :update_item, mutation: Mutations::UpdateItemMutation
     
     field :add_receita_mutation, mutation: Mutations::AddReceitaMutation
-    # field :update_item, mutation: Mutations::UpdateItemMutation
+    field :update_receita_mutation, mutation: Mutations::UpdateReceitaMutation
 
 
   end

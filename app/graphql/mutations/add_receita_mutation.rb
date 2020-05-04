@@ -1,58 +1,69 @@
 module Mutations
-    class AddReceitaMutation < Mutations::BaseMutation
-  
-      argument :attributes, Types::ReceitaInputType, required: true
-  
-      field :receitum, Types::ReceitaType, null: true
-      field :errors, Types::ValidationErrorsType, null: true
-  
-      def resolve(attributes:)
-        check_authentication!
-  
-        # user = User.find(context[:current_user].id)
-        user = User.find(1)
-
+  class AddReceitaMutation < Mutations::BaseMutation
+    
+    argument :attributes, Types::ReceitaInputType, required: true
+    
+    field :receitum, Types::ReceitaType, null: true
+    field :errors, Types::ValidationErrorsType, null: true
+    
+    def resolve(attributes:)
+      check_authentication!
+      
+      user = User.find(context[:current_user].id)
+      # user = User.find(1)
+      
         
-        receita = Receitum.new({
+      @receita = Receitum.new({
           # attributes.to_h.merge(user: user)
           nome: attributes.nome,
           user: user,
           descricao: attributes.descricao,
           # provimentos: @provimento
           })
-
+          
           ingredientes = []
-        
-        if attributes.ingredientes.count > 0
+          passos = []
+          
+          
+          if attributes.ingredientes.count > 0
             
             attributes.ingredientes.each do |i|
-
-                @provimento = createOrFindProvimento(i)
-
-                ingredientes << createIngrediente(i, @provimento, receita, user)
+              
+              @provimento = createOrFindProvimento(i)
+              
+              @receita.ingredientes << createIngrediente(i, @provimento, @receita)
               
             end
             
-        end
+          end
+          
+          if attributes.passos.count > 0
+              
+              attributes.passos.each do |i|
+          
+                  @receita.passos << createOrFindPasso(i, @receita)
+                
+              end              
+          end
         
         puts @provimento.to_json
   
-        puts receita.to_json
+        puts @receita.to_json
   
-        if receita.save
+        if @receita.save
         #   GqlDespensaSchema.subscriptions.trigger("itemAdded", {}, item)
-          { receitum: receita }
+          { receitum: @receita }
         else
-          { errors: receita.errors }
+          { errors: @receita.errors }
         end
   
       end
 
-      def createIngrediente(ingrediente, provimento, receita, user)
+      def createIngrediente(ingrediente, provimento, receita)
 
         puts receita.to_json
 
-        Ingrediente.create!({
+        Ingrediente.create({
           
           provimento: provimento,
           receitum: receita,
@@ -62,6 +73,7 @@ module Mutations
           created_at: Time.now,
           updated_at: Time.now
         })
+
       end 
 
       def createOrFindProvimento(ingrediente)
@@ -71,6 +83,25 @@ module Mutations
             @provimento = Provimento.create(nome: ingrediente.provimento.nome)
           end
         @provimento
+
+      end
+      
+      
+      def createOrFindPasso(passo, receita)
+        
+
+
+        if passo.id.present?
+          @passo = Passo.find(passo)
+
+          @passo = passo
+
+          @passo.save
+        else
+          @passo = Passo.create!(passo.to_h.merge(receitum: receita))
+        end
+        
+        @passo
 
       end
 

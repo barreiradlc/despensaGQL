@@ -9,8 +9,8 @@ module Mutations
       def resolve(attributes:)
         check_authentication!
 
-        # user = User.find(context[:current_user].id)
-        user = User.find(1)
+        user = User.find(context[:current_user].id)
+        # user = User.find(1)
   
         despensa = Despensa.new({
           nome: attributes.nome,
