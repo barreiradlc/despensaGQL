@@ -1,0 +1,3 @@
+class Convite < ApplicationRecord
+    
+end
