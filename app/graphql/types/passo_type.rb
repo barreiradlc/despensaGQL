@@ -1,6 +1,4 @@
-module Types
-    class PassoType < Types::BaseObject
-    
+class Types::PassoType < Types::BaseObject
     description "Attributes for creating or updating an passo"
     
     field :id, ID, null: false
@@ -11,5 +9,4 @@ module Types
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
 
-    end
 end
