@@ -37,7 +37,7 @@ john = User.create(
     descricao: "Armario da cozinha",
   )
   
-  geladeira = Despensa.create!(
+  geladeira = Despensa.create!( 
     users: [ john, jane ],
     nome: "Geladeira",
     descricao: "Geladeira da cozinha",

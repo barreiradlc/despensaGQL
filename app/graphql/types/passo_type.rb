@@ -1,12 +1,12 @@
 class Types::PassoType < Types::BaseObject
     description "Attributes for creating or updating an passo"
     
-    field :id, ID, null: false
+    field :id, ID, null: true
 
-    field :descricao, String, null: false
-    field :posicao, Integer, null: false
+    field :descricao, String, null: true
+    field :posicao, Integer, null: true
 
-    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: true
+    field :updated_at, GraphQL::Types::ISO8601DateTime, null: true
 
 end

@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_03_151657) do
+ActiveRecord::Schema.define(version: 2020_05_09_005940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "convites", force: :cascade do |t|
+    t.string "mensagem"
+    t.string "mensagem_cancelamento"
+    t.integer "usuario_destino"
+    t.integer "usuario_solicitacao"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "despensas", force: :cascade do |t|
     t.string "nome"
@@ -27,13 +36,6 @@ ActiveRecord::Schema.define(version: 2020_05_03_151657) do
     t.bigint "despensa_id"
     t.index ["despensa_id"], name: "index_despensas_users_on_despensa_id"
     t.index ["user_id"], name: "index_despensas_users_on_user_id"
-  end
-
-  create_table "ingrediente", id: false, force: :cascade do |t|
-    t.bigint "provimento_id"
-    t.bigint "receita_id"
-    t.index ["provimento_id"], name: "index_ingrediente_on_provimento_id"
-    t.index ["receita_id"], name: "index_ingrediente_on_receita_id"
   end
 
   create_table "ingredientes", force: :cascade do |t|

@@ -15,6 +15,5 @@ module Types
     field :add_receita_mutation, mutation: Mutations::AddReceitaMutation
     field :update_receita_mutation, mutation: Mutations::UpdateReceitaMutation
 
-
   end
 end

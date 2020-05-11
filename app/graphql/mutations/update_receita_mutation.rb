@@ -1,13 +1,13 @@
 module Mutations
     class UpdateReceitaMutation < Mutations::BaseMutation
       
-      argument :attributes, Types::ReceitaInputType, required: true
+      argument :receita, Types::ReceitaInputType, required: true
       argument :id, ID, required: true
 
       field :receitum, Types::ReceitaType, null: true
       field :errors, Types::ValidationErrorsType, null: true
       
-      def resolve(id:, attributes:)
+      def resolve(id:, receita:)
         check_authentication!
         
         user = User.find(context[:current_user].id)
@@ -16,17 +16,17 @@ module Mutations
           
         @receita = Receitum.find(id)
             
-        @receita.nome = attributes.nome
-        @receita.descricao = attributes.descricao
+        @receita.nome = receita.nome
+        @receita.descricao = receita.descricao
         # provimentos: @provimento
     
         
         ingredientes = []
         passos = []
         
-        if attributes.ingredientes.count > 0
+        if receita.ingredientes.count > 0
             
-            attributes.ingredientes.each do |i|
+            receita.ingredientes.each do |i|
             
             @provimento = createOrFindProvimento(i)
             
@@ -36,11 +36,11 @@ module Mutations
             
         end
         
-        if attributes.passos.count > 0
+        if receita.passos.count > 0
             
-            attributes.passos.each do |i|
+            receita.passos.each do |i, index|
         
-                @receita.passos << createOrFindPasso(i, @receita)
+                @receita.passos << createOrFindPasso(i, @receita, index)
                 
             end              
         end
@@ -98,7 +98,7 @@ module Mutations
 
     end
     
-    def createOrFindPasso(passo, receita)
+    def createOrFindPasso(passo, receita, index)
         
         if passo.id.present?
             @passo = Passo.find(passo.id)
@@ -108,7 +108,7 @@ module Mutations
 
             @passo.update({
                 descricao: passo.descricao,
-                posicao: passo.posicao
+                posicao: passo.posicao || index + 1
             })
         else
             @passo = Passo.create!(passo.to_h.merge(receitum: receita))

@@ -1,12 +1,12 @@
 module Mutations
   class AddReceitaMutation < Mutations::BaseMutation
     
-    argument :attributes, Types::ReceitaInputType, required: true
+    argument :receita, Types::ReceitaInputType, required: true
     
     field :receitum, Types::ReceitaType, null: true
     field :errors, Types::ValidationErrorsType, null: true
     
-    def resolve(attributes:)
+    def resolve(receita:)
       check_authentication!
       
       user = User.find(context[:current_user].id)
@@ -14,10 +14,10 @@ module Mutations
       
         
       @receita = Receitum.new({
-          # attributes.to_h.merge(user: user)
-          nome: attributes.nome,
+          # receita.to_h.merge(user: user)
+          nome: receita.nome,
           user: user,
-          descricao: attributes.descricao,
+          descricao: receita.descricao,
           # provimentos: @provimento
           })
           
@@ -25,9 +25,9 @@ module Mutations
           passos = []
           
           
-          if attributes.ingredientes.count > 0
+          if receita.ingredientes.count > 0
             
-            attributes.ingredientes.each do |i|
+            receita.ingredientes.each do |i|
               
               @provimento = createOrFindProvimento(i)
               
@@ -37,9 +37,9 @@ module Mutations
             
           end
           
-          if attributes.passos.count > 0
+          if receita.passos.count > 0
               
-              attributes.passos.each do |i|
+              receita.passos.each do |i|
           
                   @receita.passos << createOrFindPasso(i, @receita)
                 
