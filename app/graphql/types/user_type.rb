@@ -9,6 +9,7 @@ module Types
 
     field :items, [Types::ItemType], null: true
     field :despensas, [Types::DespensaType], null: true
+    field :convites, [Types::ConviteType], null: true
 
     field :full_name, String, null: true
 

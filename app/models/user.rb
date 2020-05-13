@@ -1,8 +1,11 @@
 class User < ApplicationRecord
+   
     has_many :items, dependent: :destroy
     has_many :receitum, dependent: :destroy
+    has_many :convites, dependent: :destroy
     
     has_and_belongs_to_many :despensas
+     
 
     has_secure_password
     # mount_uploader :avatar, AvatarUploader

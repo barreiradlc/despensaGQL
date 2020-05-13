@@ -23,7 +23,7 @@ class Types:: QueryType < Types::BaseObject
     end
 
     def users(query:)
-      User.where("username like ?", "%#{query}%")
+      User.where("username like ? or first_name like ? or email like ?", "%#{query}%","%#{query}%","%#{query}%")
     end    
     
     field :provimentos, [Types::ProvimentoType],null: true do
