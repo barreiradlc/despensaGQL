@@ -1,5 +1,6 @@
 class Types::ReceitaInputType < Types::BaseInputObject
 
+    argument :id, ID, required: false
     argument :nome, String, required: false
     argument :descricao, String, required: false
     argument :ingredientes, [Types::IngredienteInputType], required: false

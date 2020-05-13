@@ -45,9 +45,13 @@ module Mutations
             end              
         end
         
-        puts @provimento.to_json
+        # puts @provimento.to_json
 
+        puts '############'
+        puts '############'
         puts @receita.to_json
+        puts '############'
+        puts '############'
 
         if @receita.save
             { receitum: @receita }

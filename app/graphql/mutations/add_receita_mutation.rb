@@ -19,36 +19,40 @@ module Mutations
           user: user,
           descricao: receita.descricao,
           # provimentos: @provimento
-          })
+      })
+      
+      ingredientes = []
+      passos = []
           
-          ingredientes = []
-          passos = []
           
+        if receita.ingredientes.count > 0
           
-          if receita.ingredientes.count > 0
+          receita.ingredientes.each do |i|
             
-            receita.ingredientes.each do |i|
-              
-              @provimento = createOrFindProvimento(i)
-              
-              @receita.ingredientes << createIngrediente(i, @provimento, @receita)
-              
-            end
+            @provimento = createOrFindProvimento(i)
+            
+            @receita.ingredientes << createIngrediente(i, @provimento, @receita)
             
           end
           
-          if receita.passos.count > 0
-              
-              receita.passos.each do |i|
-          
-                  @receita.passos << createOrFindPasso(i, @receita)
-                
-              end              
-          end
+        end
         
-        puts @provimento.to_json
+        if receita.passos.count > 0
+            
+            receita.passos.each do |i|
+        
+                @receita.passos << createOrFindPasso(i, @receita)
+              
+            end              
+        end
+      
+        # puts @provimento.to_json
   
+        puts '###########'
+        puts '###########'
         puts @receita.to_json
+        puts '###########'
+        puts '###########'
   
         if @receita.save
         #   GqlDespensaSchema.subscriptions.trigger("itemAdded", {}, item)
