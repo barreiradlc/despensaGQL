@@ -10,16 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_13_221141) do
+ActiveRecord::Schema.define(version: 2020_05_16_204740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "convites", force: :cascade do |t|
     t.string "mensagem"
+    t.integer "usuario_solicitacao"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
+    t.bigint "despensa_id"
+    t.index ["despensa_id"], name: "index_convites_on_despensa_id"
     t.index ["user_id"], name: "index_convites_on_user_id"
   end
 
@@ -95,6 +98,7 @@ ActiveRecord::Schema.define(version: 2020_05_13_221141) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "convites", "despensas"
   add_foreign_key "convites", "users"
   add_foreign_key "ingredientes", "provimentos"
   add_foreign_key "ingredientes", "receita"

@@ -30,7 +30,7 @@ module Mutations
             
             @provimento = createOrFindProvimento(i)
             
-            @receita.ingredientes << createIngrediente(i, @provimento, @receita)
+           ingredientes << createIngrediente(i, @provimento, @receita)
             
             end
             
@@ -40,12 +40,15 @@ module Mutations
             
             receita.passos.each do |i, index|
         
-                @receita.passos << createOrFindPasso(i, @receita, index)
+                passos << createOrFindPasso(i, @receita, index)
                 
             end              
         end
         
         # puts @provimento.to_json
+
+        @receita.ingredientes = ingredientes
+        @receita.passos = passos
 
         puts '############'
         puts '############'

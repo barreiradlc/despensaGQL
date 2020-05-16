@@ -31,7 +31,7 @@ john = User.create(
     nome: "Cebola"
   )
 
-  armario = Despensa.create!(
+   armario = Despensa.create!(
     users:[ john ],
     nome: "Armario",
     descricao: "Armario da cozinha",
