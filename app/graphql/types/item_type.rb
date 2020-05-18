@@ -2,6 +2,7 @@ module Types
   class ItemType < Types::BaseObject
         
         field :id, ID, null: true
+        field :uuid, String, null: true
         field :quantidade, Integer, null: true
 
         field :validade, GraphQL::Types::ISO8601Date, null: true

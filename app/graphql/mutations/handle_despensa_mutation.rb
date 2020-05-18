@@ -57,7 +57,12 @@ module Mutations
       def createItem(item, provimento, despensa, user)
         if item.id.present?
             @item_atual = Item.find(item.id)
-            
+
+            @item_atual.update({
+              quantidade: item.quantidade,
+              validade: item.validade,
+            })
+
             if @item_atual.provimento.id == provimento.id
               @item_atual
             else
@@ -74,13 +79,14 @@ module Mutations
                 
                 validade: item.validade && item.validade,
                 quantidade: item.quantidade,
+                uuid: item.uuid,
     
                 created_at: Time.now,
                 updated_at: Time.now
               })
         end
 
-      end 
+      end
 
 
       def saveOrCreate(attributes, user)
@@ -89,6 +95,7 @@ module Mutations
             @despensa = Despensa.find(attributes.id)
         else
             @despensa = Despensa.new({
+                uuid: attributes.uuid,
                 nome: attributes.nome,
                 descricao: attributes.descricao,
                 # users: [ context[:current_user] ],
@@ -111,7 +118,7 @@ module Mutations
 
         # @despensa.items_attributes.update(attributes.items.to_h)
         if @despensa.id.present?
-
+''
           if @despensa.update({
                   nome: attributes.nome,
                   descricao: attributes.descricao,

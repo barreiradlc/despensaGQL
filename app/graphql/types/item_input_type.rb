@@ -3,6 +3,7 @@ module Types
         description "Attributes for creating or updating an item"
         
         argument :id, ID, required: false
+        argument :uuid, String, required: false
         argument :quantidade, Integer, required: false
         argument :validade, GraphQL::Types::ISO8601DateTime, required: false
 
