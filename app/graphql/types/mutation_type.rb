@@ -3,6 +3,7 @@ module Types
     
     field :sign_in, mutation: Mutations::SignInMutation
     field :sign_up, mutation: Mutations::SignUpMutation
+    field :update_perfil_mutation, mutation: Mutations::UpdatePerfilMutation
 
     field :handle_despensa_mutation, mutation: Mutations::HandleDespensaMutation
     field :add_despensa, mutation: Mutations::AddDespensaMutation
