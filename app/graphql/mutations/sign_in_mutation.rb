@@ -7,16 +7,7 @@ module Mutations
       field :user, Types::UserType, null: true
 
       def resolve(attributes:)
-        # @user = User.find_by_email(attributes.email)
-        
-        # token = JsonWebToken.encode(user_id: @user.id)
-        # time = Time.now + 300000.hours.to_i
-        
-        # {
-        #     token: token,
-        #     user: @user
-        # rescue ActiveRecord::RecordNotFound
-        #     raise GraphQL::ExecutionError, "user not found"
+
         if EmailValidator.valid?(attributes[:email])
           @user = User.find_by_email(attributes[:email])
         else
@@ -27,7 +18,7 @@ module Mutations
           token = JsonWebToken.encode(user_id: @user.id)
           time = Time.now + 24.hours.to_i
           {
-              token: token,
+              token: token,                                                                                                                                                                                                                         
               user: @user
           }
         else
