@@ -13,7 +13,7 @@ module Mutations
         
         # user = User.find(2)
         user = User.find(context[:current_user].id)
-        @convite = Convite.find(id)
+        # @convite = Convite.find(id)
 
         if aceita
             @despensa = Despensa.find(@convite.despensa_id)

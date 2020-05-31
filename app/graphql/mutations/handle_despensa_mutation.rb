@@ -41,7 +41,7 @@ module Mutations
 
         if item.provimento.id
           return Provimento.find(item.provimento.id)
-        end
+        end      
         puts item.provimento
 
         @provimento = Provimento.where(nome: item.provimento.nome)[0]
