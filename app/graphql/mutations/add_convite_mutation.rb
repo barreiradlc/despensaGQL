@@ -12,7 +12,7 @@ module Mutations
         
         # usuario_solicitacao = User.find(1)
         usuario_solicitacao = User.find(context[:current_user].id)
-        # user = User.find(id)
+        user = User.find(id)
     
         @convite = Convite.new(convite.to_h.merge(user: user, usuario_solicitacao: usuario_solicitacao['id']))
     
