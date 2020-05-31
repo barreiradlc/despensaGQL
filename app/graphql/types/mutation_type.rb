@@ -15,6 +15,7 @@ module Types
     
     field :add_receita_mutation, mutation: Mutations::AddReceitaMutation
     field :update_receita_mutation, mutation: Mutations::UpdateReceitaMutation
+    field :delete_receita_mutation, mutation: Mutations::DeleteReceitaMutation
     
     field :add_convite_mutation, mutation: Mutations::AddConviteMutation
     field :response_convite_mutation, mutation: Mutations::ResponseConviteMutation

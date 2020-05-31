@@ -6,18 +6,18 @@ module Mutations
       field :user, Types::UserType, null: true
       field :errors, Types::ValidationErrorsType, null: true
       
-        def resolve(id:, perfil:)
+        def resolve( perfil: )
             check_authentication!
             
             @user = User.find(context[:current_user].id)
-            # user = User.find(1)
+            # @user = User.find(1)
             
-            @perfil.update(perfil.to_h)
+            @user.update(perfil.to_h)
         
-            if @perfil.save
-                { receitum: @receita }
+            if @user.save
+                { user: @user }
             else
-                { errors: @receita.errors }
+                { errors: @user.errors }
             end
 
         end

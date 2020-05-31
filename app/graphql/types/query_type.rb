@@ -23,7 +23,10 @@ class Types:: QueryType < Types::BaseObject
     end
 
     def users(query:)
-      User.where("username like ? or first_name like ? or email like ?", "%#{query}%","%#{query}%","%#{query}%")
+      puts query
+      if query != ''
+        User.where("username ILIKE ? or unaccent(first_name) ILIKE ? or email ILIKE ?", "%#{query}%","%#{query}%","%#{query}%")
+      end    
     end    
     
     field :provimentos, [Types::ProvimentoType],null: true do
@@ -40,18 +43,22 @@ class Types:: QueryType < Types::BaseObject
 
     def receita(id:)
       Receitum.find(id)
-    end    
+    end
 
     field :receitas, [Types::ReceitaType],null: true do
       argument :query, String, required: false
     end
 
     def receitas
-      q = Receitum.all
-      # if query.present?
-      #  q = Receitum.where("nome like ?", "%#{query}%")
-      # end
-    end    
+      Receitum.all
+    end
 
+    field :receitas_possiveis, [Types::ReceitaType],null: true do
+      argument :provimentos, [Integer], required: false
+    end
+
+    def receitas_possiveis(provimentos:)
+      Receitum.joins(:ingredientes).merge(Ingrediente.joins(:provimento).where("provimento_id = ANY(ARRAY[?])", provimentos)).distinct.limit(10)
+    end
 
 end
