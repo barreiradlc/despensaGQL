@@ -14,8 +14,6 @@ ActiveRecord::Schema.define(version: 2020_05_17_090438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "unaccent"
-
 
   create_table "convites", force: :cascade do |t|
     t.string "mensagem"

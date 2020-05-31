@@ -85,14 +85,17 @@ module Mutations
                 updated_at: Time.now
               })
         end
-
       end
 
 
       def saveOrCreate(attributes, user)
 
         if attributes.id.present?
-            @despensa = Despensa.find(attributes.id)
+          @despensa = Despensa.find(attributes.id)
+          if attributes.deleted_at.present?
+            @despensa.destroy
+            return []
+          end
         else
             @despensa = Despensa.new({
                 uuid: attributes.uuid,
@@ -118,7 +121,7 @@ module Mutations
 
         # @despensa.items_attributes.update(attributes.items.to_h)
         if @despensa.id.present?
-''
+
           if @despensa.update({
                   nome: attributes.nome,
                   descricao: attributes.descricao,
