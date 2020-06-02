@@ -8,11 +8,15 @@ module Mutations
 
       def resolve(attributes:)
 
-        if EmailValidator.valid?(attributes[:email])
-          @user = User.find_by_email(attributes[:email])
+        if EmailValidator.valid?(attributes[:username])
+          @user = User.find_by_email(attributes[:username])
         else
-          @user = User.where(username: attributes[:email])
+          @user = User.where(username: attributes[:username])[0]
         end
+
+        puts 'user'
+        puts @user.to_json
+        puts 'user'
 
         if @user&.authenticate(attributes[:password])
           token = JsonWebToken.encode(user_id: @user.id)
