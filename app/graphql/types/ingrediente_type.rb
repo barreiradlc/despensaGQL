@@ -3,6 +3,7 @@ class Types::IngredienteType < Types::BaseObject
         
         field :id, ID, null: true
         field :quantidade, Integer, null: true
+        field :medida, String, null: true
 
         field :created_at, GraphQL::Types::ISO8601DateTime, null: true
         field :updated_at, GraphQL::Types::ISO8601DateTime, null: true

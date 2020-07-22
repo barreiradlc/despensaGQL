@@ -55,11 +55,13 @@ john = User.create(
         quantidade:2,
         provimento: ovo,
         receitum: omelete,
+        medida: "UNIDADE"
       },
       {
         quantidade:1,
         provimento: oleo,
         receitum: omelete,
+        medida: "COLHER"
       }
     ]
   )

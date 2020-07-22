@@ -37,8 +37,6 @@ module Mutations
         puts @listDespensas.to_json
         puts 'Despensas a salvar'
 
-
-
         if item.provimento.id
           return Provimento.find(item.provimento.id)
         end      
@@ -48,31 +46,46 @@ module Mutations
           puts item.to_json
 
           if !@provimento
-            @provimento  = Provimento.create(nome: item.provimento.nome)
+            @provimento  = Provimento.create!(nome: item.provimento.nome)
+          else
+            @provimento.update(item.provimento.to_h)
           end
-        @provimento
+
+
+          @provimento
       end
 
 
       def createItem(item, provimento, despensa, user)
+
         if item.id.present?
             @item_atual = Item.find(item.id)
 
-            @item_atual.update({
-              quantidade: item.quantidade,
-              validade: item.validade,
-            })
-
-            if @item_atual.provimento.id == provimento.id
-              @item_atual
+            if item.deleted_at.present?
+              if @item_atual
+                @item_atual.destroy
+              end
+            return
             else
-              @item_atual.update(provimento: provimento)
+              @item_atual.update!({
+                quantidade: item.quantidade,
+                validade: item.validade,
+              })
+  
+              if @item_atual.provimento.id == provimento.id
+                @item_atual
+              else
+                @item_atual.update!(provimento: item.provimento.to_h)
+              end
+              
             end
             
+            
           else
-    
-              Item.create!({
-                
+            
+
+            Item.create!({
+              
                 provimento: provimento,
                 despensa: despensa,
                 user: user,
@@ -84,9 +97,10 @@ module Mutations
                 created_at: Time.now,
                 updated_at: Time.now
               })
+              
         end
       end
-
+      
 
       def saveOrCreate(attributes, user)
 
@@ -135,7 +149,7 @@ module Mutations
 
         else
             
-          if @despensa.save({
+          if @despensa.save!({
                     nome: attributes.nome,
                     descricao: attributes.descricao,
                     items: items

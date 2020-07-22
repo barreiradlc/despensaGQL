@@ -4,6 +4,7 @@ module Types
         
         argument :id, ID, required: false
         argument :quantidade, Integer, required: false
+        argument :medida, String, required: false
 
         argument :created_at, GraphQL::Types::ISO8601DateTime, required: false
         argument :updated_at, GraphQL::Types::ISO8601DateTime, required: false

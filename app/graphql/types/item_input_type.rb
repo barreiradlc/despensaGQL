@@ -9,6 +9,7 @@ module Types
 
         argument :created_at, GraphQL::Types::ISO8601DateTime, required: false
         argument :updated_at, GraphQL::Types::ISO8601DateTime, required: false
+        argument :deleted_at, GraphQL::Types::ISO8601DateTime, required: false
 
         argument :provimento, Types::ProvimentoInputType, required: true
 
