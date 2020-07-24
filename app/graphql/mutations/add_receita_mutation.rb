@@ -72,7 +72,8 @@ module Mutations
           provimento: provimento,
           receitum: receita,
           
-          quantidade: ingrediente.quantidade,
+          quantidade: ingrediente.quantidade || 1,
+          medida: ingrediente.medida || "UNIDADE",
 
           created_at: Time.now,
           updated_at: Time.now

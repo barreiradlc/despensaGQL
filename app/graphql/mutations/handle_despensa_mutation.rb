@@ -51,7 +51,6 @@ module Mutations
             @provimento.update(item.provimento.to_h)
           end
 
-
           @provimento
       end
 
