@@ -37,7 +37,7 @@ class Types:: QueryType < Types::BaseObject
       Provimento.where("nome like ?", "%#{query}%")
     end    
 
-    field :receita, Types::ReceitaType ,null: true do
+    field :receita, Types::ReceitaType ,connection: true, null: true do
       argument :id, ID, required: true
     end
 
@@ -45,7 +45,7 @@ class Types:: QueryType < Types::BaseObject
       Receitum.find(id)
     end
 
-    field :receitas, [Types::ReceitaType],null: true do
+    field :receitas, Types::ReceitaType.connection_type, null: true do
       argument :query, String, required: false
     end
 
