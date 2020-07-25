@@ -26,14 +26,14 @@ module Mutations
         end
 
         
-          {despensas: @listDespensas}
+           {despensas: @listDespensas}
         
       
       end
 
       def createOrFindProvimento(item)
           
-        puts 'Despensas a salvar'
+       puts 'Despensas a salvar'
         puts @listDespensas.to_json
         puts 'Despensas a salvar'
 
@@ -63,8 +63,9 @@ module Mutations
             if item.deleted_at.present?
               if @item_atual
                 @item_atual.destroy
+                return
               end
-            return
+              return
             else
               @item_atual.update!({
                 quantidade: item.quantidade,
@@ -81,7 +82,9 @@ module Mutations
             
             
           else
-            
+            if item.deleted_at.present?              
+              return
+            end
 
             Item.create!({
               
@@ -138,7 +141,7 @@ module Mutations
           if @despensa.update({
                   nome: attributes.nome,
                   descricao: attributes.descricao,
-                  items: items
+                  # items: items
               })
           
             @listDespensas << @despensa
@@ -161,7 +164,7 @@ module Mutations
           
         end
         
-        @despensa.items = items
+        # @despensa.items = items
 
       end
     
