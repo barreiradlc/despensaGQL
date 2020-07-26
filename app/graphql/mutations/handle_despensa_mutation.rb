@@ -75,7 +75,7 @@ module Mutations
               if @item_atual.provimento.id == provimento.id
                 @item_atual
               else
-                @item_atual.update!(provimento: item.provimento.to_h)
+                @item_atual.update!(provimento: provimento)
               end
               
             end

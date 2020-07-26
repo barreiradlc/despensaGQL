@@ -37,7 +37,7 @@ class Types:: QueryType < Types::BaseObject
       Provimento.where("nome like ?", "%#{query}%")
     end    
 
-    field :receita, Types::ReceitaType ,connection: true, null: true do
+    field :receita, Types::ReceitaType, null: true do
       argument :id, ID, required: true
     end
 
@@ -53,12 +53,12 @@ class Types:: QueryType < Types::BaseObject
       Receitum.all
     end
 
-    field :receitas_possiveis, [Types::ReceitaType],null: true do
+    field :receitas_possiveis, Types::ReceitaType.connection_type ,null: true do
       argument :provimentos, [Integer], required: false
     end
 
     def receitas_possiveis(provimentos:)
-      Receitum.joins(:ingredientes).merge(Ingrediente.joins(:provimento).where("provimento_id = ANY(ARRAY[?])", provimentos)).distinct.limit(10)
+      Receitum.joins(:ingredientes).merge(Ingrediente.joins(:provimento).where("provimento_id = ANY(ARRAY[?])", provimentos))
     end
 
 end
