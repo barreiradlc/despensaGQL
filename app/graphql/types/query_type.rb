@@ -58,7 +58,7 @@ class Types:: QueryType < Types::BaseObject
     end
 
     def receitas_possiveis(provimentos:)
-      Receitum.joins(:ingredientes).merge(Ingrediente.joins(:provimento).where("provimento_id = ANY(ARRAY[?])", provimentos))
+      Receitum.joins(:ingredientes).merge(Ingrediente.joins(:provimento).where("provimento_id = ANY(ARRAY[?])", provimentos)).distinct
     end
 
 end
