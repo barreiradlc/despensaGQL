@@ -74,7 +74,10 @@ module Mutations
             else
               @ingrediente_atual.update(provimento: provimento)
             end
-            @ingrediente_atual 
+            @ingrediente_atual.update({
+                quantidade: ingrediente.quantidade || 1,
+                medida: ingrediente.medida || "UNIDADE"
+            })
         else
 
         puts receita.to_json
@@ -85,6 +88,7 @@ module Mutations
         receitum: receita,
         
         quantidade: ingrediente.quantidade,
+        medida: ingrediente.medida || "UNIDADE"
 
         created_at: Time.now,
         updated_at: Time.now
