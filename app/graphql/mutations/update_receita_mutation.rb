@@ -28,9 +28,9 @@ module Mutations
             
             receita.ingredientes.each do |i|
             
-            @provimento = createOrFindProvimento(i)
+                @provimento = createOrFindProvimento(i)
             
-           ingredientes << createIngrediente(i, @provimento, @receita)
+                ingredientes << createIngrediente(i, @provimento, @receita)
             
             end
             
@@ -78,20 +78,25 @@ module Mutations
                 quantidade: ingrediente.quantidade || 1,
                 medida: ingrediente.medida || "UNIDADE"
             })
+
+            puts "@ingrediente_atual.to_json"
+            puts @ingrediente_atual.to_json
+
+            @ingrediente_atual
         else
 
         puts receita.to_json
 
         Ingrediente.create({
         
-        provimento: provimento,
-        receitum: receita,
-        
-        quantidade: ingrediente.quantidade,
-        medida: ingrediente.medida || "UNIDADE"
+            provimento: provimento,
+            receitum: receita,
+            
+            quantidade: ingrediente.quantidade,
+            medida: ingrediente.medida || "UNIDADE",
 
-        created_at: Time.now,
-        updated_at: Time.now
+            created_at: Time.now,
+            updated_at: Time.now
         })
 
         end 
