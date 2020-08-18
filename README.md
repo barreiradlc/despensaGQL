@@ -1,24 +1,7 @@
-# README
+Back end dedicado ao App Despensa que atualmente está em processo de validação.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+O projeto está hospedado no heroku.
 
-Things you may want to cover:
+Tendo como banco o Postgresql utilizando graphql por conta de nossa necessidade de exercer certa inteligencia de dados para consultas exteriores.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Playground desabilitado para ambiente de desenvolvimento.
